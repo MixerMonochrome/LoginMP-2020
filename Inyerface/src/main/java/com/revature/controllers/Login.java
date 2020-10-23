@@ -20,23 +20,23 @@ import com.revature.services.AccountService;
 @RestController
 @RequestMapping(value = "/user")
 public class Login {
-	AccountService acs;
+	AccountService acctServ;
 	
 	@Autowired
-	public Login(AccountService acs) {
-		this.acs = acs;
+	public Login(AccountService acctServ) {
+		this.acctServ = acctServ;
 	}
 	
 	//Return all Users
 	@GetMapping
 	public ResponseEntity<List<User>> findAll(){
-		return ResponseEntity.status(HttpStatus.OK).body(acs.findAll());
+		return ResponseEntity.status(HttpStatus.OK).body(acctServ.findAll());
 	}
 	
 	//Login Method (Verification)
 	@PostMapping(value = "/login")
 	public ResponseEntity<User> login(@RequestBody User u){
-		User nu = acs.validLogin(u);
+		User nu = acctServ.validLogin(u);
 		if(nu == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(nu);
 		}else {
@@ -47,7 +47,7 @@ public class Login {
 	//New User Method
 	@PostMapping(value = "/new")
 	public ResponseEntity<User> register(@RequestBody User u){
-		User nu = acs.register(u);
+		User nu = acctServ.persist(u);
 		if(nu == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(nu);
 		}else {
@@ -56,14 +56,14 @@ public class Login {
 	}
 	
 	//Update User Method
-//	@PutMapping(value = "/update")
-//	public ResponseEntity<User> update(@RequestBody User u){
-//		User nu = acs.update(u);
-//		if(nu == null) {
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(nu);
-//		}else {
-//			return ResponseEntity.status(HttpStatus.ACCEPTED).body(nu);
-//		}
-//	}
+	@PutMapping(value = "/update")
+	public ResponseEntity<User> update(@RequestBody User u){
+		User nu = acctServ.persist(u);
+		if(nu == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(nu);
+		}else {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(nu);
+		}
+	}
 	
 }

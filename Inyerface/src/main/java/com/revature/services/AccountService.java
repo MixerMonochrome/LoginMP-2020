@@ -25,7 +25,7 @@ public class AccountService {
 		User nu = udao.findByUsername(u.getUsername());
 		//Possibly find better Hash Method?
 		String hashed = ((Integer)(u.getUsername().hashCode() * u.getPassword().hashCode())).toString();
-		if (nu.getPassword() == hashed) {
+		if (nu != null && nu.getPassword() == hashed) {
 			return nu;
 		}
 		else {
@@ -33,8 +33,7 @@ public class AccountService {
 		}
 	}
 	
-	//TODO: TEST IF SAVE MAKES DUPLICATE VALS
-	public User register(User u) {
+	public User persist(User u) {
 		return(udao.save(u));	
 	}
 	

@@ -51,9 +51,9 @@ public class User implements Serializable{
 	@Column(name="favColor")
 	private String favColor;
 	
-	@Autowired
 	public User(String username, String password, String email, String phoneNum, 
 			int secQuest, String secAnsw, String favColor) {
+		super();
 		this.username = username;
 		this.password = password;
 		this.email = email;

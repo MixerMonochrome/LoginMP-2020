@@ -25,7 +25,7 @@ public class AccountService {
 		User nu = udao.findByUsername(u.getUsername());
 		//Possibly find better Hash Method?
 		String hashed = ((Integer)(u.getUsername().hashCode() * u.getPassword().hashCode())).toString();
-		if (nu != null && nu.getPassword() == hashed) {
+		if (nu != null && nu.getPassword().equals(hashed)) {
 			return nu;
 		}
 		else {
@@ -34,7 +34,9 @@ public class AccountService {
 	}
 	
 	public User persist(User u) {
-		return(udao.save(u));	
+		String hashed = ((Integer)(u.getUsername().hashCode() * u.getPassword().hashCode())).toString();
+		u.setPassword(hashed);
+		return(udao.save(u));
 	}
 	
 	public List<User> findAll(){
